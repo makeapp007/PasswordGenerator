@@ -1,0 +1,159 @@
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>PasswdGen</title>
+
+		<script>
+			/*! password-generator - v0.2.1 (2013-04-28)
+			* -----------------
+			* Copyright(c) 2013 Bermi Ferrer <bermi@bermilabs.com>
+			* MIT Licensed
+			*/
+			(function(e){var t,n,r,i,s;r=/[a-zA-Z]$/,s=/[aeiouAEIOU]$/,n=/[bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ]$/,t=e.localPasswordGeneratorLibraryName||"generatePassword",i=function(e,t,r,o){var u,a;return e==null&&(e=10),t==null&&(t=!0),r==null&&(r=/\w/),o==null&&(o=""),o.length>=e?o:(t&&(o.match(n)?r=s:r=n),a=Math.floor(Math.random()*100)%94+33,u=String.fromCharCode(a),t&&(u=u.toLowerCase()),u.match(r)?i(e,t,r,""+o+u):i(e,t,r,o))},(typeof exports!="undefined"?exports:e)[t]=i,typeof exports!="undefined"&&typeof module!="undefined"&&module.exports&&(module.exports=i)})(this);
+		</script>
+		<script>
+			var userOS = (navigator.userAgent.toLowerCase().indexOf('mac') != -1) ? '[CMD][Alt]' : '[Alt]';
+		</script>
+		<style>
+		* {
+			margin:0;
+			padding:0;
+
+			font-size:16px;
+			font-family:Monaco, monospace;
+
+			-moz-box-sizing:border-box;
+			-webkit-box-sizing:border-box;
+			box-sizing:border-box;
+		}
+		.page-wrap {
+			width:400px;
+			margin:50px auto 0 auto;
+			overflow:hidden;
+		}
+		.text-center { text-align:center; }
+		.textfield-large {
+			display:block;
+			width:300px;
+			padding:5px 10px;
+			margin:10px auto;
+			font-size:24px;
+		}
+		.textfield-small-square { width:30px; height:30px; text-align:center; }
+		[class^='button-'] {
+			background-color:gold;
+			outline:none;
+			border-width:1px 2px 2px 1px;
+			border-color:orange;
+			border-style:solid;
+			font-weight:bold;
+		}
+		.button-medium {
+			display:block;
+			padding:10px 80px;
+			margin:0 auto;
+		}
+		.description-box {
+			text-align:center;
+			color:gray;
+			font-style:italic;
+			margin-top:40px;
+		}
+
+		.settings-toggle { display:block; color:black; text-decoration:none; }
+			.settings-toggle:active { color:black; }
+			.settings-toggle:visited { color:black; }
+		.settings-closed { display:none; }
+		.settings-box {
+			background:#EEE;
+			padding:20px;
+		}
+			.settings-box span {
+				display:block;
+				margin-bottom:15px;
+				font-weight:bold;
+			}
+		.list-settings {
+			margin:0;
+			padding:0;
+			list-style-type:none;
+		}
+			.list-settings li { margin-bottom:10px; }
+				.list-settings li:last-child { margin-bottom:0; }
+
+		footer {
+			margin-top:40px;
+			color:DDD;
+			font-size:12px;
+		}
+
+		</style>
+	</head>
+	<body>
+
+		<div class="page-wrap">
+			<a href="#" class="settings-toggle text-center" id="settings-toggle">Choices &#x25BE;</a>
+			
+			<div class="settings-box settings-closed" id="settings-box">
+				<span>Settings</span>
+				<form name="pwsettings">
+					<ul class="list-settings">
+						<li><input type="checkbox" id="pwmem" name="pwmem" accesskey="m" /> <label for="pwmem">Memorable?</label></li>
+						<li><input type="text" id="pwlen" name="pwlen" value="12" class="textfield-small-square" /> <label for="pwlen">Length</label></li>
+					</ul>
+				</form>
+			</div>
+
+			<form name="pwgen">
+				<input type="text" name="pwfield" tabindex="1" class="textfield-large text-center" /><br />
+				<input type="submit" name="pwsubmit" tabindex="2" class="button-medium" accesskey="g" value="Generate" />
+			</form>
+
+			<div class="description-box">
+				<p>Press <script>document.write(userOS);</script> + g to generate</p>
+				<p>Press <script>document.write(userOS);</script> + m to toggle memorable</p>
+			</div>
+		</div>
+
+		<footer class="text-center">
+			<p>Created by Mads Aune (@datamads)</p>
+			<p>Check out Bermi Ferrer's password generator on <a href="https://github.com/bermi/password-generator">github</a></p>
+		</footer>
+
+
+		<script>
+			var pwgen = document.pwgen,
+						pwsettings = document.pwsettings,
+						pwfield = pwgen.pwfield,
+						pwlen = pwsettings.pwlen,
+						pwmem = pwsettings.pwmem,
+						settingsToggle = document.getElementById('settings-toggle'),
+						settingsBox = document.getElementById('settings-box');
+
+			pwfield.value = generatePassword(pwlen.value, pwmem.checked);
+			pwfield.select();
+			pwgen.onsubmit = function() {
+				pwfield.value = generatePassword(pwlen.value, pwmem.checked);
+				pwfield.select();
+				return false;
+			}
+			pwfield.onclick = function() {
+				this.select();
+			}
+			settingsToggle.onclick = function() {
+				if (settingsBox.classList.contains('settings-closed')) {
+					settingsBox.classList.remove('settings-closed');
+					settingsToggle.innerHTML = 'Choices &#x25B4';
+				} else {
+					settingsBox.classList.add('settings-closed');
+					settingsToggle.innerHTML = 'Choices &#x25BE';
+				}
+
+				return false;
+			}
+
+
+		</script>
+	</body>
+</html>
